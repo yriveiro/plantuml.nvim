@@ -1,0 +1,29 @@
+@startuml
+participant Client
+participant Server
+
+== TLS Handshake (1.2) ==
+
+Client -> Server: ClientHello (supported TLS versions, cipher suites)
+Server -> Client: ServerHello (chosen version, cipher suite)
+Server -> Client: Certificate (server's SSL certificate)
+Server -> Client: ServerKeyExchange (if needed)
+Server -> Client: ServerHelloDone
+Client -> Server: ClientKeyExchange (pre-master secret)
+Client -> Server: ChangeCipherSpec
+Client -> Server: Finished (encrypted)
+Server -> Client: ChangeCipherSpec
+Server -> Client: Finished (encrypted)
+
+== Secure Communication ==
+
+Client -> Server: HTTP Request (encrypted)
+note right of Server: Process Request
+Server -> Client: HTTP Response (encrypted)
+
+== Optional Session Termination ==
+
+Client -> Server: Close Notify
+Server -> Client: Close Notify
+
+@enduml
