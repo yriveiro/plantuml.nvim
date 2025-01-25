@@ -1,0 +1,105 @@
+================================================================================
+PLANTUML                                                              *plantuml*
+
+PlantUML is a utility module for rendering PlantUML diagrams within Neovim. It
+provides functionality to execute PlantUML commands, manage diagram caching,
+and display diagrams in floating windows with proper scaling.
+
+Getting started with PlantUML:
+  1. Ensure PlantUML and the required dependencies are installed and accessible
+     in your environment.
+  2. Load the module using `local plantuml = require("plantuml")`.
+  3. Use `plantuml.setup` to configure the module with your preferences.
+  4. Use `plantuml.render` to render and display a PlantUML diagram.
+  5. Use the `:PlantUMLPreview` command to preview diagrams directly from the
+     buffer.
+
+Example: ```lua local plantuml = require 'plantuml'
+
+plantuml.setup { cmd = 'plantuml', cache = { path = vim.fn.stdpath('cache') ..
+'/plantuml/' }, }
+
+local diagram_path = '/path/to/diagram.puml' plantuml.render(diagram_path) ```
+
+To find out more:
+https://github.com/yriveiro/plantuml.nvim
+
+:h plantuml
+
+M.render()                                                        *M.render()*
+    Renders a PlantUML diagram and displays it in a floating window.
+
+
+
+M.setup()                                                          *M.setup()*
+    Sets up the PlantUML module with user-defined options.
+
+
+
+
+================================================================================
+PNG                                                               *plantuml.png*
+
+PNG is a utility module for extracting the dimensions (width and height) from a
+PNG image file. It provides a simple API for working with binary files and
+interpreting image metadata.
+
+Getting started with PNG:
+  1. Ensure your Lua environment includes the `bit` library for bitwise
+     operations.
+  2. Load the module using `local PNG = require("path.to.dimensions")`.
+  3. Use the `dimensions` method to get the width and height of a PNG file: 
+     ```lua local file = io.open("path/to/image.png", "rb") local dimensions =
+     png.dimensions(file) if dimensions then print("Width:", dimensions.width,
+     "Height:", dimensions.height) else print("Failed to read image
+     dimensions.") end file:close() ```
+  4. Explore the helper methods `read` and `to_int` if you need lower-level
+     access to binary file reading and buffer interpretation.
+
+To find out more:
+https://github.com/yriveiro/plantuml.nvim/blob/main/lua/plantuml/png.lua
+
+:h plantuml.png
+
+
+================================================================================
+WINDOW                                                         *plantuml.window*
+
+Window is a utility module designed for handling and displaying images within
+Neovim. It provides functionality for scaling images to fit terminal
+dimensions, zooming in and out, and rendering images in floating windows.
+
+Getting started with window:
+  1. Ensure your Lua environment is set up to use this module.
+  2. Load the module using `local window = require("image_utils")`.
+  3. Use `window.geometry` to calculate scaled dimensions for an image.
+  4. Use `window.zoom` to zoom in or out on an image.
+  5. Use `window.create` to display an image in a floating window.
+
+Example: ```lua local image_utils = require 'image_utils' local size = { width
+= 800, height = 600 } local term = { screen_cols = 80, screen_rows = 24,
+cell_width = 8, cell_height = 16 } local geometry = image_utils.geometry(size,
+term) print("Scaled width:", geometry.width, "Scaled height:", geometry.height)
+
+local dim = { width = geometry.width, height = geometry.height, scale_factor =
+geometry.scale_factor } local opts = { border = "rounded", title = "Image
+Viewer" } local buf, win = image_utils.create(dim, opts) ```
+
+To find out more:
+https://github.com/yriveiro/plantuml.nvim/blob/main/lua/plantuml/window.lua
+
+:h plantuml.window
+
+M.zoom()                                                            *M.zoom()*
+    Adjusts the zoom level of the image based on the provided scale factor and
+    operation.
+
+
+
+M.create()                                                        *M.create()*
+    Creates a new floating window for rendering an image.
+
+
+
+
+ vim:tw=78:ts=8:ft=help:norl:

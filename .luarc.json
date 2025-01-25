@@ -1,11 +1,24 @@
 {
-  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+  "runtime.version": "LuaJIT",
   "diagnostics": {
-    "disable": ["unused-local"]
+    "enable": true,
+    "globals": ["vim"],
+    "neededFileStatus": {
+      "codestyle-check": "Any"
+    },
+    "disable": ["missing-parameter"]
   },
-  "runtime": {
-    "version": "Lua 5.4",
-    "path": ["plugin/?.lua"],
-    "pathStrict": true
-  }
+  "workspace": {
+    "library": ["lua", "$VIMRUNTIME/lua", "${3rd}/luv/library"],
+    "checkThirdParty": true,
+    "maxPreload": 2000,
+    "preloadFileSize": 1000,
+    "ignoreDir": ["tests/"]
+  },
+  "hint": {
+    "enable": true,
+    "setType": true
+  },
+  "telemetry.enable": false
 }

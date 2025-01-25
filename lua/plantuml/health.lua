@@ -2,6 +2,9 @@ local fn = vim.fn
 local health = vim.health
 local is_win = vim.fn.has 'win32' == 1
 
+---List of dependencies to check.
+---Each dependency contains its name, required binaries, arguments, and other properties.
+---@table dependencies
 local dependencies = {
   {
     name = 'plantuml',
@@ -12,10 +15,11 @@ local dependencies = {
   },
 }
 
-local required_plugins = {
-  { name = 'plenary', optional = false },
-}
-
+---Checks if a binary exists and optionally retrieves its version.
+---@param binary string The name of the binary to check.
+---@param args table A table of command-line arguments for the binary (optional).
+---@return boolean Whether the binary exists.
+---@return string|nil The version information if available, or `nil` if not.
 local function check_binary(binary, args)
   if is_win then
     binary = binary .. '.exe'
@@ -36,29 +40,12 @@ local function check_binary(binary, args)
   return true, version
 end
 
-local function is_plugin_installed(plugin_name)
-  return pcall(require, plugin_name)
-end
-
 local M = {}
 
+---Performs a health check for external dependencies.
+---Iterates over all declared dependencies and checks their availability.
+---Provides health report messages based on the results.
 function M.check()
-  health.start 'Checking for required plugins'
-
-  for _, plugin in ipairs(required_plugins) do
-    local installed = is_plugin_installed(plugin.name)
-    if installed then
-      health.ok(plugin.name .. ' installed.')
-    else
-      local message = plugin.name .. ' not found.'
-      if plugin.optional then
-        health.warn(message)
-      else
-        health.error(message)
-      end
-    end
-  end
-
   health.start 'Checking external dependencies'
 
   for _, dep in ipairs(dependencies) do
